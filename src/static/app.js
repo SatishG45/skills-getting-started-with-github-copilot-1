@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Function to fetch activities from API
   async function fetchActivities() {
     try {
-      const response = await fetch("/activities");
+      const response = await fetch("/activities", { cache: 'no-cache' });
       const activities = await response.json();
 
       // Clear loading message and existing options
@@ -33,24 +33,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Build participants HTML
         let participantsHTML = '<div class="participants-section">';
-        participantsHTML += '<div class="participants-title">Participants</div>';
+        participantsHTML += '<h5 class="participants-title">Participants</h5>';
 
         if (details.participants && details.participants.length > 0) {
-          participantsHTML += '<div class="participants-list"><ul>';
-          participantsHTML += details.participants
-            .map(
-              (p) =>
-                `<li><span class="participant-badge">${escapeHTML(p)}</span><button class="delete-participant" data-activity="${encodeURIComponent(
-                  name
-                )}" data-email="${encodeURIComponent(p)}" aria-label="Remove participant">✖</button></li>`
-            )
-            .join("");
-          participantsHTML += "</ul></div>";
+          participantsHTML += '<ul class="participants-list" style="list-style: none;">';
+          details.participants.forEach(participant => {
+            participantsHTML += `<li>${escapeHTML(participant)} <button class="delete-participant" data-activity="${encodeURIComponent(name)}" data-email="${encodeURIComponent(participant)}" title="Remove participant">×</button></li>`;
+          });
+          participantsHTML += '</ul>';
         } else {
-          participantsHTML += '<div class="no-participants">No participants yet.</div>';
+          participantsHTML += '<p class="no-participants">No participants yet.</p>';
         }
 
-        participantsHTML += "</div>";
+        participantsHTML += '</div>';
 
         activityCard.innerHTML = `
           <h4>${escapeHTML(name)}</h4>
