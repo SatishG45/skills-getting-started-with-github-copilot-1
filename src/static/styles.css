@@ -157,20 +157,26 @@ footer {
 }
 
 .participants-list ul {
-  list-style: none;
-  padding-left: 0;
+  list-style: disc;
+  padding-left: 20px;
   margin: 0;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
+  display: block;
+  gap: 0; /* Remove flex gap since we're using block */
 }
 
 .participants-list li {
   margin-bottom: 8px;
-  display: inline-flex;
+  display: list-item;
   align-items: center;
   gap: 8px;
   background: transparent;
+  padding: 4px 0;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.participants-list li:hover {
+  background: rgba(26, 35, 126, 0.05);
 }
 
 .delete-participant {
